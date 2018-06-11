@@ -372,17 +372,33 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    if state[0] in corners:
-        return 0
-    valueMin = 999999
-    noTakenCorners = set(corners) - state[1]
-    for corner in noTakenCorners:
-        xy1 = state[0]
-        xy2 = corner
-        val = abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-        if val < valueMin:
-            valueMin = val
-    return valueMin
+    def manhattan(xy1, xy2):
+        return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+    def getNearest(cur, corners):
+        nearestCorner = ((), 999999)
+        for corner in corners:
+            val = manhattan(cur, corner)
+            if val < nearestCorner[1]:
+                nearestCorner = (corner, val)
+        return nearestCorner
+
+    unvisitCorners = set(corners) - state[1]
+    curNearest = ()
+    if (state[0] in corners):
+        curNearest = (state[0], 0)
+    else:
+        curNearest = getNearest(state[0], unvisitCorners)
+
+    dSum = curNearest[1]
+    dList = list(unvisitCorners)
+    dCur = curNearest[0]
+    while len(dList) > 0:
+        nearest = getNearest(dCur, dList)
+        dCur = nearest[0]
+        dSum += nearest[1]
+        dList.remove(nearest[0])
+
+    return dSum
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
