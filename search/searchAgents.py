@@ -40,6 +40,8 @@ from game import Actions
 import util
 import time
 import search
+from search import SearchProblem
+
 
 class GoWestAgent(Agent):
     "An agent that goes West until it can't."
@@ -295,13 +297,14 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return (self.startingPosition, frozenset([]))
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
+        return len(state[1]) == 4
         util.raiseNotDefined()
 
     def getSuccessors(self, state):
@@ -325,9 +328,18 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            x,y = state[0]
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            cornerValue = state[1]
+            if (nextx, nexty) in self.corners:
+                cornerValue = state[1] | {(nextx, nexty)}
+            if not self.walls[nextx][nexty]:
+                successors.append((((nextx, nexty), cornerValue), action, 1))
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
+        util.raiseNotDefined()
 
     def getCostOfActions(self, actions):
         """
@@ -360,6 +372,17 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
+    if state[0] in corners:
+        return 0
+    valueMin = 999999
+    noTakenCorners = set(corners) - state[1]
+    for corner in noTakenCorners:
+        xy1 = state[0]
+        xy2 = corner
+        val = abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+        if val < valueMin:
+            valueMin = val
+    return valueMin
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
