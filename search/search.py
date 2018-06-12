@@ -89,24 +89,23 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     closedSet = set()
     fringeList = util.Stack()
-    fringeList.push(([problem.getStartState()], [], 0))
+    fringeList.push((problem.getStartState(), [], 0))
     while True:
         if fringeList.isEmpty(): return []
         fringe = fringeList.pop()
-        stateList = fringe[0]
+        position = fringe[0]
         actionList = fringe[1]
         cost = fringe[2]
-        currentState = stateList[-1]
-        if problem.isGoalState(currentState):
+        if problem.isGoalState(position):
             return actionList
         else:
-            if currentState in closedSet: continue
-            closedSet.add(currentState)
-            for successor in problem.getSuccessors(currentState):
-                newStateList = stateList + [successor[0]]
+            if position in closedSet: continue
+            closedSet.add(position)
+            for successor in problem.getSuccessors(position):
+                newPosition = successor[0]
                 newActionList = actionList + [successor[1]]
                 newCost = cost + successor[2]
-                fringeList.push((newStateList, newActionList, newCost))
+                fringeList.push((newPosition, newActionList, newCost))
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
@@ -114,24 +113,23 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     closedSet = set()
     fringeList = util.Queue()
-    fringeList.push(([problem.getStartState()], [], 0))
+    fringeList.push((problem.getStartState(), [], 0))
     while True:
         if fringeList.isEmpty(): return []
         fringe = fringeList.pop()
-        stateList = fringe[0]
+        position = fringe[0]
         actionList = fringe[1]
         cost = fringe[2]
-        currentState = stateList[-1]
-        if problem.isGoalState(currentState):
+        if problem.isGoalState(position):
             return actionList
         else:
-            if currentState in closedSet: continue
-            closedSet.add(currentState)
-            for successor in problem.getSuccessors(currentState):
-                newStateList = stateList + [successor[0]]
+            if position in closedSet: continue
+            closedSet.add(position)
+            for successor in problem.getSuccessors(position):
+                newPosition = successor[0]
                 newActionList = actionList + [successor[1]]
                 newCost = cost + successor[2]
-                fringeList.push((newStateList, newActionList, newCost))
+                fringeList.push((newPosition, newActionList, newCost))
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
@@ -139,24 +137,23 @@ def uniformCostSearch(problem):
     "*** YOUR CODE HERE ***"
     closedSet = set()
     fringeList = util.PriorityQueue()
-    fringeList.push(([problem.getStartState()], [], 0), 0)
+    fringeList.push((problem.getStartState(), [], 0), 0)
     while True:
         if fringeList.isEmpty(): return []
         fringe = fringeList.pop()
-        stateList = fringe[0]
+        position = fringe[0]
         actionList = fringe[1]
         cost = fringe[2]
-        currentState = stateList[-1]
-        if problem.isGoalState(currentState):
+        if problem.isGoalState(position):
             return actionList
         else:
-            if currentState in closedSet: continue
-            closedSet.add(currentState)
-            for successor in problem.getSuccessors(currentState):
-                newStateList = stateList + [successor[0]]
+            if position in closedSet: continue
+            closedSet.add(position)
+            for successor in problem.getSuccessors(position):
+                newPosition = successor[0]
                 newActionList = actionList + [successor[1]]
                 newCost = cost + successor[2]
-                fringeList.push((newStateList, newActionList, newCost), newCost)
+                fringeList.push((newPosition, newActionList, newCost), newCost)
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -171,25 +168,24 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     "*** YOUR CODE HERE ***"
     closedSet = set()
     fringeList = util.PriorityQueue()
-    fringeList.push(([problem.getStartState()], [], 0), 0)
+    fringeList.push((problem.getStartState(), [], 0), 0)
     while True:
         if fringeList.isEmpty(): return []
         fringe = fringeList.pop()
-        stateList = fringe[0]
+        position = fringe[0]
         actionList = fringe[1]
         cost = fringe[2]
-        currentState = stateList[-1]
-        if problem.isGoalState(currentState):
+        if problem.isGoalState(position):
             return actionList
         else:
-            if currentState in closedSet: continue
-            closedSet.add(currentState)
-            for successor in problem.getSuccessors(currentState):
-                newStateList = stateList + [successor[0]]
+            if position in closedSet: continue
+            closedSet.add(position)
+            for successor in problem.getSuccessors(position):
+                newPosition = successor[0]
                 newActionList = actionList + [successor[1]]
                 newCost = cost + successor[2]
                 heuristicValue = heuristic(successor[0], problem)
-                fringeList.push((newStateList, newActionList, newCost), newCost + heuristicValue)
+                fringeList.push((newPosition, newActionList, newCost), newCost + heuristicValue)
     util.raiseNotDefined()
 
 
