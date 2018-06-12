@@ -494,16 +494,16 @@ def foodHeuristic(state, problem):
     nearest = ((), 999999)
     farest = ((), 0)
     for food in foodGrid.asList():
-        val = util.manhattanDistance(position, food)
+        val = mazeDistance(position, food, problem.startingGameState)
         if val < nearest[1]:
             nearest = (food, val)
         if val > farest[1]:
             farest = (food, val)
     result = 0
     if (len(nearest[0]) > 0):
-        result += util.manhattanDistance(position, nearest[0])
+        result += mazeDistance(position, nearest[0], problem.startingGameState)
         if (len(farest[0]) > 0):
-            result +=  util.manhattanDistance(nearest[0], farest[0])
+            result +=  mazeDistance(nearest[0], farest[0], problem.startingGameState)
     return result
     return 0
 
